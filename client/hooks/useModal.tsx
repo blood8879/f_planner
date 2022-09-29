@@ -4,7 +4,31 @@ import { useRouter } from "next/router";
 import { createPortal } from "react-dom";
 
 const Container = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 11;
+    
+    .modal-background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.75);
+        z-index: 10;
+    }
 
+    .modal-contents {
+        width: 568px;
+        min-height: 614px;
+        padding: 32px;
+        background-color: white;
+        z-index: 11;
+    }
 `;
 
 const useModal = () => {
@@ -51,7 +75,7 @@ const useModal = () => {
                         onClick={closeModal}
                     />
                     <div className="modal-contents">
-                        <button type="button" onClick={closeModal}/>
+                        {/* <button type="button" onClick={closeModal}/> */}
                         {children}
                     </div>
                 </Container>,
@@ -59,7 +83,7 @@ const useModal = () => {
             );
         }
         return null;
-    }
+    };
 
     return {
         openModal,

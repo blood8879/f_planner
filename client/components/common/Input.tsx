@@ -47,8 +47,9 @@ const Input: React.FC<IProps> = ({ icon, label, ...props }) => {
                     <input {...props} />
                 </label>
             )}
+            {!label && <input {...props} />}
         </Container>
-   ) 
-}
+   ); 
+};
 
 export default React.memo(Input);

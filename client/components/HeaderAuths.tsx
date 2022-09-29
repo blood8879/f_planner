@@ -2,10 +2,11 @@ import React from "react"
 import { useDispatch } from "react-redux";
 import useModal from "../hooks/useModal"
 import { authActions } from "../store/auth";
+import AuthModal from "./auth/AuthModal";
 
 
 const HeaderAuths: React.FC = () => {
-    const { openModal, closeModal } = useModal();
+    const { openModal, closeModal, ModalPortal } = useModal();
 
     const dispatch = useDispatch();
 
@@ -17,7 +18,7 @@ const HeaderAuths: React.FC = () => {
                     type="button"
                     onClick={() => {
                         dispatch(authActions.setAuthMode("signup"));
-                        openModal;
+                        openModal();
                     }}
                 >
                     회원가입
@@ -33,6 +34,9 @@ const HeaderAuths: React.FC = () => {
                     로그인
                 </button>
             </div>
+            <ModalPortal>
+                <AuthModal closeModal={closeModal}/>
+            </ModalPortal>
         </>
     )
 }

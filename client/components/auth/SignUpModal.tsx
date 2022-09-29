@@ -4,10 +4,21 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { signupAPI } from "../../lib/api/auth";
 import { userActions } from "../../store/user";
+import palette from "../../styles/palette";
+import Button from "../common/Button";
 import Input from "../common/Input";
 
 const Container = styled.div`
+    .sign-up-input-wrapper {
+        position: relative;
+        margin-bottom: 16px;
+    }
 
+    .sign-up-modal-submit-button-wrapper {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid ${palette.gray_eb};
+    }
 `;
 
 const PASSWORD_MIN_LENGTH = 8;
@@ -39,22 +50,46 @@ const SignUpModal : React.FC<IProps> = ({ closeModal }) => {
         [password]
     );
 
+    // 회원가입 양식 누락 없는지 체크
+    const validateSignUpForm = () => {
+        if(!email) {
+            return false;
+        }
+        if(!name) {
+            return false;
+        }
+        if(!password) {
+            return false;
+        }
+        if(!confirmPassword) {
+            return false;
+        }
+        if(!password || !isPasswordHasNumberOrSymbol || !isPasswordOverMinLength) {
+            return false;
+        }
+        return true;
+    }
+
     const onSubmitSignup = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        try {
-            const signUpBody = {
-                email,
-                name,
-                password,
-            };
-
-            const { data } = await signupAPI(signUpBody);
-            dispatch(userActions.setLoggedUser(data));
-            closeModal();
-        } catch(error) {
-            console.log(error)
+        if(validateSignUpForm()) {
+            try {
+                const signUpBody = {
+                    email,
+                    name,
+                    password,
+                };
+    
+                const { data } = await signupAPI(signUpBody);
+                dispatch(userActions.setLoggedUser(data));
+                closeModal();
+            } catch(error) {
+                console.log(error)
+            }
         }
+
+        
     }
 
     useEffect(() => {
@@ -66,6 +101,15 @@ const SignUpModal : React.FC<IProps> = ({ closeModal }) => {
             <form onSubmit={onSubmitSignup}>
                 <div className="sign-up-input-wrapper">
                     <Input placeholder="이메일 주소" type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </div>
+                <div className="sign-up-input-wrapper">
+                    <Input placeholder="이름" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div className="sign-up-input-wrapper">
+                    <Input placeholder="비밀번호" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                <div className="sign-up-modal-submit-button-wrapper">
+                    <Button type="submit">가입하기</Button>
                 </div>
             </form>
         </Container>
