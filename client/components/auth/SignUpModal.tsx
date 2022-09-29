@@ -61,12 +61,12 @@ const SignUpModal : React.FC<IProps> = ({ closeModal }) => {
         if(!password) {
             return false;
         }
-        if(!confirmPassword) {
-            return false;
-        }
-        if(!password || !isPasswordHasNumberOrSymbol || !isPasswordOverMinLength) {
-            return false;
-        }
+        // if(!confirmPassword) {
+        //     return false;
+        // }
+        // if(!password || !isPasswordHasNumberOrSymbol || !isPasswordOverMinLength) {
+        //     return false;
+        // }
         return true;
     }
 
@@ -80,8 +80,9 @@ const SignUpModal : React.FC<IProps> = ({ closeModal }) => {
                     name,
                     password,
                 };
-    
+                console.log("signUpbody==",signUpBody)
                 const { data } = await signupAPI(signUpBody);
+                console.log("data==",data)
                 dispatch(userActions.setLoggedUser(data));
                 closeModal();
             } catch(error) {

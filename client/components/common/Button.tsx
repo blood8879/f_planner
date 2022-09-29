@@ -62,7 +62,14 @@ const Container = styled.button<StyledButtonProps>`
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 28px;
+    height: 48px;
+    padding: 0 15px;
+    border: 0;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
     width: ${(props) => props.width};
     ${(props) => gutButtonColor(props.color || "", props.colorReverse)};
     ${(props) => getButtonSize(props.size)}

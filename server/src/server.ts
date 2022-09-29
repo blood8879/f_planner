@@ -1,11 +1,24 @@
 import express from "express";
 import authRoutes from "./routes/auth";
-// import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
+import morgan from "morgan";
 
 const app = express();
 
 dotenv.config();
+
+const origin = process.env.ORIGIN;
+
+
+app.use(cors({
+    origin,
+    credentials: true
+}));
+
+app.use(express.json());
+app.use(morgan("dev"));
+
 
 const mongoose = require("mongoose");
 
@@ -16,12 +29,9 @@ const connect = mongoose.connect(mongo_URI, {
 })
 .then(() => console.log("DB Connected"))
 .catch(err => console.log(err));
-  
-app.use(express.json());
 
 app.get("/", (_, res) => res.send("Server is running"));
 app.use("/api/auth", authRoutes);
-// app.use("/api/auth", require("./routes/auth"));
 
 let port = 4000;
 
