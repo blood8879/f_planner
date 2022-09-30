@@ -8,6 +8,7 @@ const initialState: UserState = {
     email: "",
     name: "",
     role: 0,
+    profileImage: "",
     isLogged: false
 };
 

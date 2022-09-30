@@ -1,11 +1,11 @@
 import axios from "axios";
+import { LoginBodyAPI, SignUpBodyAPI } from "../../types/api";
 import { UserType } from "../../types/user";
 
-interface signUpBodyAPI {
-    email: string;
-    name: string;
-    password: string;
-}
-
-export const signupAPI = (body: signUpBodyAPI) =>
+export const signupAPI = (body: SignUpBodyAPI) =>
     axios.post<UserType>("/api/auth/signup", body);
+
+export const loginAPI = (body: LoginBodyAPI) =>
+    axios.post<UserType>("/api/auth/login", body);
+
+export const logoutAPI = () => axios.post("/api/auth/logout");

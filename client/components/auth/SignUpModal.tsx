@@ -110,7 +110,7 @@ const SignUpModal : React.FC<IProps> = ({ closeModal }) => {
                     <Input placeholder="비밀번호" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <div className="sign-up-modal-submit-button-wrapper">
-                    <Button type="submit">가입하기</Button>
+                    <Button type="submit" color="bittersweet">가입하기</Button>
                 </div>
             </form>
         </Container>

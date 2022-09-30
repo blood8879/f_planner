@@ -26,6 +26,11 @@ const gutButtonColor = (color: string, colorReverse: boolean) => {
                 background-color: ${palette.dark_cyan};
                 color: white;
             `;
+        case "bittersweet":
+            return css`
+                background-color: ${palette.bittersweet};
+                color: white;
+            `
         default:
             return css`
                 background-color: white;
@@ -59,7 +64,6 @@ interface StyledButtonProps {
 }
 
 const Container = styled.button<StyledButtonProps>`
-    display: flex;
     justify-content: center;
     width: 100%;
     height: 48px;
@@ -77,7 +81,7 @@ const Container = styled.button<StyledButtonProps>`
 
 interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
-    color?: "dark_cyan";
+    color?: "dark_cyan" | "bittersweet";
     size?: "small" | "medium";
     width?: string;
     colorReverse?: boolean;

@@ -63,7 +63,7 @@ const login = async (req: Request, res: Response) => {
         }
 
         // 비밀번호가 맞다면 토큰 생성
-        const token = jwt.sign({email}, process.env.JWT_SECRET);
+        const token = jwt.sign({ email }, process.env.JWT_SECRET);
 
         // 쿠키 저장
         res.set("Set-Cookie", cookie.serialize("token", token, {
@@ -71,7 +71,7 @@ const login = async (req: Request, res: Response) => {
             maxAge: 60 * 60 * 24 * 7,
             path: "/"
         }));
-
+        
         return res.json({ user, token });
     } catch (error) {
         console.log(error);
