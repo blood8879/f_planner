@@ -37,7 +37,7 @@ const HeaderUserProfile: React.FC = () => {
                 onClick={() => setIsUsermenuOpened(!isUsermenuOpened)}
             >
                 <img 
-                    src={userProfileImage}
+                    src="https://www.gravatar.com/avatar/0000?d=mp&f=y"
                     className="header-user-profile-image"
                     alt=""
                 />

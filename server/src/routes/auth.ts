@@ -66,12 +66,26 @@ const login = async (req: Request, res: Response) => {
         const token = jwt.sign({ email }, process.env.JWT_SECRET);
 
         // 쿠키 저장
-        res.set("Set-Cookie", cookie.serialize("token", token, {
-            httpOnly: true,
-            maxAge: 60 * 60 * 24 * 7,
-            path: "/"
-        }));
+        // res.set("Set-Cookie", cookie.serialize("token", token, {
+        //     httpOnly: true,
+        //     maxAge: 60 * 60 * 24 * 7,
+        //     path: "/"
+        // }));
+        res.setHeader(
+            "Set-Cookie",
+            `access-token=${token}; path=/; expires=${new Date(
+                Date.now() + 60 * 60 * 24 * 1000 * 3
+            ).toUTCString}; httponly`
+        );
+
+        const check1 = res.setHeader(
+            "Set-Cookie",
+            `access-token=${token}; path=/; expires=${new Date(
+                Date.now() + 60 * 60 * 24 * 1000 * 3
+            ).toUTCString}; httponly`
+        );
         
+        console.log("chk1===", check1)
         return res.json({ user, token });
     } catch (error) {
         console.log(error);
@@ -95,6 +109,7 @@ const logout = async (_: Request, res: Response) => {
 };
 
 const router = Router();
+router.get("/me", userMiddleware, authMiddleware, me);
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/logout", userMiddleware, authMiddleware, logout);
