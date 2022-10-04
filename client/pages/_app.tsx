@@ -9,7 +9,6 @@ const app = ({ Component, pageProps }: AppProps) => {
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;
   axios.defaults.withCredentials = true;
 
-  
   const user = useSelector((state) => state.user);
 
   return (
