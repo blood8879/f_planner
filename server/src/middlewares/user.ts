@@ -4,13 +4,15 @@ import { Request, Response, NextFunction } from "express";
 
 export default async(req: Request, res: Response, next: NextFunction) => {
     try {
-        const token = req.cookies.token;
+        // const token = req.cookies.token;
+        const token = req.headers.cookie;
+        // console.log("token===", req.headers.cookie);
         if (!token) return next();
 
         const { email } : any = jwt.verify(token, process.env.JWT_SECRET);
 
         const user = await User.findOne({ email });
-        console.log("user", user);
+        // console.log("user", user);
 
         if (!user) throw new Error("Unauthenticated");
 

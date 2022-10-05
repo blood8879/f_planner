@@ -9,7 +9,26 @@ import userMiddleware from "../middlewares/user";
 
 const me = async (_: Request, res: Response) => {
     return res.json(res.locals.user);
-};
+}
+
+// const me = async (req: Request, res: Response) => {
+//     if(req.method === "GET") {
+//         try {
+//             const accessToken = req.headers.cookie;
+//             if(!accessToken) {
+//                 res.statusCode = 400;
+//                 return res.send("access_token이 없습니다.");
+//             }
+//             const userId = jwt.verify(accessToken, process.env.JWT_SECRET!)
+//             console.log("me.ts // userId===", userId);
+//         } catch(e) {
+//             console.log(e);
+//         }
+//     }
+//     res.statusCode = 405;
+
+//     return res.end();
+// }
 
 const signup = async (req: Request, res: Response) => {
     const { email, name, password } = req.body;
@@ -66,26 +85,13 @@ const login = async (req: Request, res: Response) => {
         const token = jwt.sign({ email }, process.env.JWT_SECRET);
 
         // 쿠키 저장
-        // res.set("Set-Cookie", cookie.serialize("token", token, {
-        //     httpOnly: true,
-        //     maxAge: 60 * 60 * 24 * 7,
-        //     path: "/"
-        // }));
-        res.setHeader(
-            "Set-Cookie",
-            `access-token=${token}; path=/; expires=${new Date(
-                Date.now() + 60 * 60 * 24 * 1000 * 3
-            ).toUTCString}; httponly`
-        );
+        res.set("Set-Cookie", cookie.serialize("token", token, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 * 7,
+            path: "/",
+            secure: false
+        }));
 
-        const check1 = res.setHeader(
-            "Set-Cookie",
-            `access-token=${token}; path=/; expires=${new Date(
-                Date.now() + 60 * 60 * 24 * 1000 * 3
-            ).toUTCString}; httponly`
-        );
-        
-        console.log("chk1===", check1)
         return res.json({ user, token });
     } catch (error) {
         console.log(error);
