@@ -4,9 +4,19 @@ import { Request, Response, NextFunction } from "express";
 
 export default async(req: Request, res: Response, next: NextFunction) => {
     try {
+        // console.log("req====", req)
+        
+        let token = "";
         // const token = req.cookies.token;
-        const token = req.headers.cookie;
-        // console.log("token===", req.headers.cookie);
+        console.log("router===", req.route.path)
+        if(req.route.path === "/me") {
+            token = req.headers.cookie;
+        } else {
+            token = req.cookies.token;
+        }
+            
+        
+        console.log("token===", token);
         if (!token) return next();
 
         const { email } : any = jwt.verify(token, process.env.JWT_SECRET);

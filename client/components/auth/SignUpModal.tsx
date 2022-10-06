@@ -83,7 +83,7 @@ const SignUpModal : React.FC<IProps> = ({ closeModal }) => {
                 console.log("signUpbody==",signUpBody)
                 const { data } = await signupAPI(signUpBody);
                 console.log("data==",data)
-                dispatch(userActions.setLoggedUser(data));
+                dispatch(userActions.setRegisterUser(data));
                 closeModal();
             } catch(error) {
                 console.log(error)

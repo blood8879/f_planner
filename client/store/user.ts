@@ -20,6 +20,11 @@ const user = createSlice({
             state = { ...action.payload, isLogged: true };
             return state;
         },
+        // 회원가입
+        setRegisterUser(state, action: PayloadAction<UserType>) {
+            state = { ...action.payload, isLogged: false };
+            return state;
+        },
         // 유저 초기화
         initUser(state) {
             state = initialState;
