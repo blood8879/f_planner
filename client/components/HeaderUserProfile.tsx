@@ -45,14 +45,14 @@ const HeaderUserProfile: React.FC = () => {
             {isUsermenuOpened && (
                 <ul className="header-usermenu">
                     <li>정보 수정</li>
-                    <Link href="/">
+                    <Link href="/schedules/register/inspection">
                         <a
                             role="presentation"
                             onClick={() => {
                                 setIsUsermenuOpened(false);
                             }}
                         >
-                            <li>일정 등록하기</li>
+                            <li>외주 일정 등록</li>
                         </a>
                     </Link>
                     <div className="header-usermenu-divider" />
