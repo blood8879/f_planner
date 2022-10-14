@@ -11,35 +11,16 @@ const me = async (_: Request, res: Response) => {
     return res.json(res.locals.user);
 }
 
-// const me = async (req: Request, res: Response) => {
-//     if(req.method === "GET") {
-//         try {
-//             const accessToken = req.headers.cookie;
-//             if(!accessToken) {
-//                 res.statusCode = 400;
-//                 return res.send("access_token이 없습니다.");
-//             }
-//             const userId = jwt.verify(accessToken, process.env.JWT_SECRET!)
-//             console.log("me.ts // userId===", userId);
-//         } catch(e) {
-//             console.log(e);
-//         }
-//     }
-//     res.statusCode = 405;
-
-//     return res.end();
-// }
-
 const signup = async (req: Request, res: Response) => {
     const { email, name, password } = req.body;
 
     try {
-        let errors: any = {};
-
         // 이미 사용중인 이메일인지 확인
         const emailUser = await User.findOne({ email });
-
-        if (emailUser) errors.email = "이미 사용중인 이메일 주소입니다."
+        
+        if(emailUser) {
+            return res.json({ success: false, error: "이미 등록되어 있는 이메일입니다." })
+        }
 
         const user = new User(req.body);
         // console.log("req.body ====", req);
