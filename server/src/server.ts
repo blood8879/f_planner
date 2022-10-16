@@ -1,5 +1,6 @@
 import express from "express";
 import authRoutes from "./routes/auth";
+import customerRoutes from "./routes/customer";
 import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
@@ -34,6 +35,7 @@ const connect = mongoose.connect(mongo_URI, {
 
 app.get("/", (_, res) => res.send("Server is running"));
 app.use("/api/auth", authRoutes);
+app.use("/api/customer", customerRoutes);
 
 let port = 4000;
 

@@ -1,5 +1,7 @@
-import { Request, Response } from "express";
+import { Request, Response, Router } from "express";
 import { Customer } from "../models/Customer";
+import authMiddleware from "../middlewares/auth";
+import userMiddleware from "../middlewares/user";
 
 const register = async (req: Request, res: Response) => {
     const { name, opened, imageUrl, handler, handlerNum, license } = req.body;
@@ -24,3 +26,8 @@ const register = async (req: Request, res: Response) => {
         console.log(e);
     }
 }
+
+const router = Router();
+router.post("/register", userMiddleware, authMiddleware, register);
+
+export default router;
