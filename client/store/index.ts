@@ -3,10 +3,12 @@ import auth from "./auth";
 import { HYDRATE, createWrapper, MakeStore } from "next-redux-wrapper";
 import { TypedUseSelectorHook, useSelector as useReduxSelector } from "react-redux";
 import user from "./user";
+import registerCustomer from "./registerCustomer";
 
 const rootReducer = combineReducers({
     auth: auth.reducer,
     user: user.reducer,
+    registerCustomer: registerCustomer.reducer,
 });
 
 // 스토어 타입 설정
