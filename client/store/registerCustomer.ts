@@ -4,25 +4,29 @@ import { UserType } from "../types/user";
 
 type RegisterCustomerState = {
     name: string | null;
+    project: string;
     opened: string | null;
     imageUrl: string;
     handler: string;
     handlerNum: string | null;
     paidSupport: boolean | null;
     supportHistory: { id: string; type: string; content: string }[];
-    license: string | null;
+    licenseExp: string | null;
+    licenseVolume: number;
 }
 
 // 초기 상태
 const initialState: RegisterCustomerState = {
     name: null,
+    project: "",
     opened: null,
     imageUrl: "",
     handler: "",
     handlerNum: null,
     paidSupport: false,
     supportHistory: [],
-    license: null
+    licenseExp: null,
+    licenseVolume: 0
 };
 
 const registerCustomer = createSlice({
@@ -34,6 +38,14 @@ const registerCustomer = createSlice({
             state = { ...action.payload };
             return state;
         },
+        // 서비스 오픈
+        setOpenDate(state, action: PayloadAction<string | null>) {
+            state.opened = action.payload;
+        },
+        // 라이센스 만료
+        setLicenseExpired(state, action: PayloadAction<string | null>) {
+            state.licenseExp = action.payload;
+        }
     }
 });
 
