@@ -21,21 +21,33 @@ const Container = styled.div<SelectorContainerProps>`
 `;
 
 interface IProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+    label?: string;
     options?: string[];
     value?: string;
+    boolean?: boolean;
     type?: "register" | "normal";
 }
 
 const Selector: React.FC<IProps> = ({
+    label,
+    boolean = true,
     options = [],
-    type = "normal"
+    type = "normal",
+    ...props
 }) => {
     return (
         <Container
             type={type}
         >
             <label>
-                Selector
+                {label && <span>{label}</span>}
+                <select {...props}>
+                    {options.map((option, index) => (
+                        <option key={index} value={option}>
+                            {option}
+                        </option>
+                    ))}
+                </select>
             </label>
         </Container>
     )

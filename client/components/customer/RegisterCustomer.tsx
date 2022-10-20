@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { EventHandler, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { useSelector } from "../../store";
@@ -8,6 +8,9 @@ import Button from "../common/Button";
 import DatePicker from "../common/DatePicker";
 import Input from "../common/Input";
 import UploadIcon from "../../public/static/svg/customer/upload/upload.svg";
+import Selector from "../common/Selector";
+import RadioGroup from "../common/RadioGroup";
+import axios from "axios";
 
 const Contaner = styled.div`
     padding: 62px 30px 100px;
@@ -19,11 +22,12 @@ const Contaner = styled.div`
     h3 {
         font-weight: bold;
         color: ${palette.gray_76};
-        margin-bottom: 6px;
+        margin-bottom: 10px;
     }
     .register-customer-date-wrapper {
         display: flex;
         align-items: center;
+        margin-bottom: 20px;
         label {
             span {
                 display: block;
@@ -48,9 +52,13 @@ const Contaner = styled.div`
             }
         }
     }
+    .register-customer-wrapper {
+        margin-bottom: 20px;
+    }
     .register-customer-logo-wrapper {
         width: 200px;
         height: 200px;
+        margin-bottom: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -74,6 +82,7 @@ const Contaner = styled.div`
     .register-cutomer-handler {
         width: 100%;
         display: flex;
+        margin-bottom: 20px;
 
         .divider {
             width: 10px;
@@ -92,6 +101,8 @@ const Contaner = styled.div`
 `;
 
 const RegisterCustomer: React.FC = () => {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
     const opened = useSelector((state) => state.registerCustomer.opened);
     const licenseExp = useSelector((state) => state.registerCustomer.licenseExp);
 
@@ -100,17 +111,17 @@ const RegisterCustomer: React.FC = () => {
     const [imageUrl, setImageUrl] = useState("");
     const [handler, setHandler] = useState("");
     const [handlerNum, setHandlerNum] = useState("");
-    const [paidSupport, setPaidSupport] = useState(false);
+    const [paidSupport, setPaidSupport] = useState(true);
 
     const dateOpened = opened ? new Date(opened) : null;
     const dateLicense = licenseExp ? new Date(licenseExp) : null;
 
     const onChangeOpenDate = (date: Date | null) => {
-        console.log("date===", date);
+        dispatch(registerCustomerActions.setOpenDate(date ? date.toISOString() : null))
     }
 
     const onChangeLicense = (date: Date | null) => {
-        console.log("date===", date);
+        dispatch(registerCustomerActions.setLicenseExpired(date ? date.toISOString() : null))
     }
 
     const uploadLogo = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,20 +130,46 @@ const RegisterCustomer: React.FC = () => {
         const file = event.target.files[0];
 
         console.log("file===", file);
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("type", fileInputRef.current!.name);
+
+        try {
+            await axios.post(`/register/upload`, formData, {
+                headers: { "Context-Type": "multipart/form-data" }
+            });
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     const dispatch = useDispatch();
+
+    const typePaidOptions = [
+        {
+            label: "유상지원",
+            value: true
+        },
+        {
+            label: "무상지원",
+            value: false
+        }
+    ]
+
+    const onChangePaidOption = (value: any) => {
+        setPaidSupport(value);
+    }
 
     return(
         <Contaner>
             <h2>고객사 등록</h2>
             <form>
                 <h3>고객사명을 입력해 주세요.</h3>
-                <div>
+                <div className="register-customer-wrapper">
                     <Input name="name" value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
-                <h3>프로젝트 명을 입력해 주세요.</h3>
-                <div>
+                <h3>사업명을 입력해 주세요.</h3>
+                <div className="register-customer-wrapper">
                     <Input name="project" value={project} onChange={(e) => setProject(e.target.value)} />
                 </div>
                 <h3>고객사 로고를 등록해 주세요.</h3>
@@ -168,7 +205,14 @@ const RegisterCustomer: React.FC = () => {
                     />
                 </div>
                 <h3>유상지원인가요?</h3>
-                
+                <div className="register-customer-wrapper">
+                    <RadioGroup 
+                        value={paidSupport}
+                        onChange={onChangePaidOption}
+                        options={typePaidOptions}
+                    />
+                    {paidSupport}
+                </div>
             </form>
         </Contaner>
     )
