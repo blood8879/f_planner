@@ -5,6 +5,7 @@ import userMiddleware from "../middlewares/user";
 
 const register = async (req: Request, res: Response) => {
     const { name, opened, imageUrl, handler, handlerNum, license } = req.body;
+    console.log("req.body===", req.body);
 
     try {
         // 이미 등록된 고객사인지 확인

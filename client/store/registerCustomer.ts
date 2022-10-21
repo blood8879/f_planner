@@ -10,7 +10,7 @@ type RegisterCustomerState = {
     handler: string;
     handlerNum: string | null;
     paidSupport: boolean | null;
-    supportHistory: { id: string; type: string; content: string }[];
+    // supportHistory: { id: string; type: string; content: string }[];
     licenseExp: string | null;
     licenseVolume: number;
 }
@@ -24,7 +24,7 @@ const initialState: RegisterCustomerState = {
     handler: "",
     handlerNum: null,
     paidSupport: false,
-    supportHistory: [],
+    // supportHistory: [],
     licenseExp: null,
     licenseVolume: 0
 };

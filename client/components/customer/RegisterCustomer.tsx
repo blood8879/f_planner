@@ -11,6 +11,10 @@ import UploadIcon from "../../public/static/svg/customer/upload/upload.svg";
 import Selector from "../common/Selector";
 import RadioGroup from "../common/RadioGroup";
 import axios from "axios";
+import { isEmpty } from "lodash";
+import RegisterCustomerLogo from "./RegisterCustomerLogo";
+import { registerCustomerAPI } from "../../lib/api/customer";
+
 
 const Contaner = styled.div`
     padding: 62px 30px 100px;
@@ -55,6 +59,12 @@ const Contaner = styled.div`
     .register-customer-wrapper {
         margin-bottom: 20px;
     }
+    .register-customer-wrapper-volume {
+        margin-bottom: 20px;
+        .Input {
+            width: 80%;
+        }
+    }
     .register-customer-logo-wrapper {
         width: 200px;
         height: 200px;
@@ -63,6 +73,29 @@ const Contaner = styled.div`
         justify-content: center;
         align-items: center;
         border: 2px dashed ${palette.gray_bb};
+        border-radius: 6px;
+
+        input {
+            position: absolute;
+            max-width: 200px;
+            max-height: 200px;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        img {
+            width: 100%;
+            max-height: 10%;
+        }
+    }
+    .register-customer-logo-wrapper-mini {
+        width: 200px;
+        height: 50px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        justify-content: center;
+        align-items: center;
         border-radius: 6px;
 
         input {
@@ -98,6 +131,26 @@ const Contaner = styled.div`
             width: 50%;
         }
     }
+    .register-customer-preview-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+    .register-customer-submit-button-wrapper {
+        width: 50%;
+        display: flex;
+
+        .divider {
+            width: 10px;
+        }
+        .flex-grow1 {
+            float: left;
+            width: 50%;
+        }
+        .flex-grow2 {
+            float: right;
+            width: 50%;
+        }
+    }
 `;
 
 const RegisterCustomer: React.FC = () => {
@@ -112,6 +165,8 @@ const RegisterCustomer: React.FC = () => {
     const [handler, setHandler] = useState("");
     const [handlerNum, setHandlerNum] = useState("");
     const [paidSupport, setPaidSupport] = useState(true);
+    const [preview, setPreview] = useState<string>();
+    const [licenseVolume, setLicenseVolume] = useState(0);
 
     const dateOpened = opened ? new Date(opened) : null;
     const dateLicense = licenseExp ? new Date(licenseExp) : null;
@@ -129,18 +184,29 @@ const RegisterCustomer: React.FC = () => {
 
         const file = event.target.files[0];
 
-        console.log("file===", file);
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("type", fileInputRef.current!.name);
+        setImageUrl(`${Date.now()}_${file.name}`);
 
-        try {
-            await axios.post(`/register/upload`, formData, {
-                headers: { "Context-Type": "multipart/form-data" }
-            });
-        } catch (e) {
-            console.log(e)
+        const readAndPreview = (file: any) => {
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = () => setPreview(reader.result as string);
+                reader.readAsDataURL(file);
+            }
         }
+
+        if(file) {
+            readAndPreview(file);
+        }
+
+        // try {
+        //     await axios.post(`/register/upload`, formData, {
+        //         headers: { "Context-Type": "multipart/form-data" }
+        //     });
+        // } catch (e) {
+        //     console.log(e)
+        // }
     }
 
     const dispatch = useDispatch();
@@ -160,10 +226,36 @@ const RegisterCustomer: React.FC = () => {
         setPaidSupport(value);
     }
 
+    const onSubmitCustomer = async(event:React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        try {
+            const opened = String(dateOpened);
+            const licenseExp = String(dateLicense);
+            const registerCustomerBody = {
+                name,
+                project,
+                imageUrl,
+                handler,
+                handlerNum,
+                paidSupport,
+                opened,
+                licenseExp,
+                licenseVolume,
+            };
+            console.log("registerCustomerBody==", registerCustomerBody);
+            const { data } = await registerCustomerAPI(registerCustomerBody);
+            // console.log("data==", data);
+            dispatch(registerCustomerActions.setRegisterCustomer(data));
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
     return(
         <Contaner>
             <h2>고객사 등록</h2>
-            <form>
+            <form onSubmit={onSubmitCustomer}>
                 <h3>고객사명을 입력해 주세요.</h3>
                 <div className="register-customer-wrapper">
                     <Input name="name" value={name} onChange={(e) => setName(e.target.value)} />
@@ -173,12 +265,26 @@ const RegisterCustomer: React.FC = () => {
                     <Input name="project" value={project} onChange={(e) => setProject(e.target.value)} />
                 </div>
                 <h3>고객사 로고를 등록해 주세요.</h3>
-                <div className="register-customer-logo-wrapper">
-                    <input type="file" accept="image/*" onChange={uploadLogo} />
-                    <Button icon={<UploadIcon />} color="bittersweet" width="167px">
-                        사진 업로드
-                    </Button>
-                </div>
+                {!imageUrl && (
+                    <div className="register-customer-logo-wrapper">
+                        <input type="file" accept="image/*" onChange={uploadLogo} />
+                        <Button icon={<UploadIcon />} color="orangedv" width="167px">
+                            사진 업로드
+                        </Button>
+                    </div>
+                )}
+                {/* {!isEmpty(imageUrl) && <RegisterCustomerLogo logo={imageUrl} />} */}
+                {imageUrl && (
+                    <div>
+                        <img className="register-customer-preview-wrapper" src={preview} alt="preview-img" />
+                        <div className="register-customer-logo-wrapper-mini">
+                            <input type="file" accept="image/*" onChange={uploadLogo} />
+                            <Button icon={<UploadIcon />} color="orangedv" width="167px" size="small">
+                                사진 변경
+                            </Button>
+                        </div>
+                    </div>
+                )}
                 <h3>서비스 오픈일을 입력해 주세요.</h3>
                 <div className="register-customer-date-wrapper">
                     <DatePicker
@@ -204,6 +310,10 @@ const RegisterCustomer: React.FC = () => {
                         onChange={onChangeLicense}
                     />
                 </div>
+                <h3>라이센스 용량은 얼마나 되나요? (GB/DAY)</h3>
+                <div className="register-customer-wrapper-volume">
+                    <Input name="volume" value={licenseVolume} onChange={(e) => setLicenseVolume(Number(e.target.value))} />
+                </div>
                 <h3>유상지원인가요?</h3>
                 <div className="register-customer-wrapper">
                     <RadioGroup 
@@ -212,6 +322,15 @@ const RegisterCustomer: React.FC = () => {
                         options={typePaidOptions}
                     />
                     {paidSupport}
+                </div>
+                <div className="register-customer-submit-button-wrapper">
+                    <div className="flex-grow1">
+                        <Button type="submit" color="orangedv">등록</Button>
+                    </div>
+                    <div className="divider"/>
+                    <div className="flex-grow2">
+                        <Button type="submit">취소</Button>
+                    </div>
                 </div>
             </form>
         </Contaner>
