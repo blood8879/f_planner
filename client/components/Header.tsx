@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "../store";
 import styled from "styled-components";
 import Link from "next/link";
 import HeaderAuths from "./HeaderAuths";
 import palette from "../styles/palette";
 import HeaderUserProfile from "./HeaderUserProfile";
+import HeaderRootProfile from "./HeaderRootProfile";
 
 const Container = styled.div`
     position: sticky;
@@ -113,6 +114,7 @@ const Container = styled.div`
 
 const Header: React.FC = () => {
     const isLogged = useSelector((state) => state.user.isLogged);
+    const role = useSelector((state) => state.user.role);
 
     return (
         <Container>
@@ -122,7 +124,8 @@ const Header: React.FC = () => {
                 </a>
             </Link>
             {!isLogged && <HeaderAuths />}
-            {isLogged && <HeaderUserProfile />}
+            {isLogged && (role !== 0) && <HeaderUserProfile />}
+            {isLogged && (role === 0) && <HeaderRootProfile />}
         </Container>
     );
 };

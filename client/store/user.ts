@@ -16,8 +16,14 @@ const user = createSlice({
     name: "user",
     initialState,
     reducers: {
+        // user login
         setLoggedUser(state, action: PayloadAction<UserType>) {
             state = { ...action.payload, isLogged: true };
+            return state;
+        },
+        // admin login
+        setLoggedAdmin(state, action: PayloadAction<UserType>) {
+            state = { ...action.payload, isLogged: true, role: 0 };
             return state;
         },
         // 회원가입

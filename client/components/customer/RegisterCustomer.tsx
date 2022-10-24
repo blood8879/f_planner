@@ -14,6 +14,8 @@ import axios from "axios";
 import { isEmpty } from "lodash";
 import RegisterCustomerLogo from "./RegisterCustomerLogo";
 import { registerCustomerAPI } from "../../lib/api/customer";
+import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
 
 
 const Contaner = styled.div`
@@ -155,6 +157,9 @@ const Contaner = styled.div`
 
 const RegisterCustomer: React.FC = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const router = useRouter();
+
+    const isLogged = useSelector((state) => state.user.isLogged);
 
     const opened = useSelector((state) => state.registerCustomer.opened);
     const licenseExp = useSelector((state) => state.registerCustomer.licenseExp);
@@ -247,10 +252,15 @@ const RegisterCustomer: React.FC = () => {
             const { data } = await registerCustomerAPI(registerCustomerBody);
             // console.log("data==", data);
             dispatch(registerCustomerActions.setRegisterCustomer(data));
+            router.push("/");
         } catch(e) {
             console.log(e);
         }
     }
+
+    useEffect(() => {
+        if(!isLogged) router.push("/");
+    }, [])
 
     return(
         <Contaner>

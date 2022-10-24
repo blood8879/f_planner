@@ -6,11 +6,10 @@ import { userActions } from "../store/user";
 import OutsideClickHandler from "react-outside-click-handler";
 import Link from "next/link";
 
-const HeaderUserProfile: React.FC = () => {
+const HeaderRootProfile: React.FC = () => {
     // 유저 메뉴 열고 닫힘 여부
     const [isUsermenuOpened, setIsUsermenuOpened] = useState(false);
     const userProfileImage = useSelector((state) => state.user.profileImage);
-    const role = useSelector((state) => state.user.role);
 
     const dispatch = useDispatch();
 
@@ -45,15 +44,14 @@ const HeaderUserProfile: React.FC = () => {
             </button>
             {isUsermenuOpened && (
                 <ul className="header-usermenu">
-                    <li>정보 수정</li>
-                    <Link href="/schedules/register/inspection">
+                    <Link href="/customer/register">
                         <a
                             role="presentation"
                             onClick={() => {
                                 setIsUsermenuOpened(false);
                             }}
                         >
-                            <li>외주 일정 등록</li>
+                            <li>고객사 등록</li>
                         </a>
                     </Link>
                     <div className="header-usermenu-divider" />
@@ -66,4 +64,4 @@ const HeaderUserProfile: React.FC = () => {
     )
 }
 
-export default HeaderUserProfile;
+export default HeaderRootProfile;
