@@ -1,7 +1,8 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { Customer } from "../models/Customer";
 import authMiddleware from "../middlewares/auth";
 import userMiddleware from "../middlewares/user";
+import multer, { FileFilterCallback } from "multer";
 
 const register = async (req: Request, res: Response) => {
     const { name, opened, imageUrl, handler, handlerNum, license } = req.body;
@@ -28,7 +29,36 @@ const register = async (req: Request, res: Response) => {
     }
 }
 
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: "public/logos",
+        filename: (_, file, callback) => {
+            console.log("file===", file);
+            const filename = `${Date.now()}_${file.originalname}`;
+            callback(null, filename)
+        },
+    }),
+    fileFilter: (_, file: any, callback: FileFilterCallback) => {
+        if(file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+            callback(null, true);
+        } else {
+            callback(new Error("This File is not image Files."))
+        }
+    }
+});
+
+const uploadLogo = async(req: Request, res: Response) => {
+    try {
+        const type = req.body.type;
+
+        console.log("req.file===", req.file);
+    } catch(e) {
+        console.log(e);
+    }
+}
+
 const router = Router();
 router.post("/register", userMiddleware, authMiddleware, register);
+router.post("/register/upload", userMiddleware, authMiddleware, upload.single('file'), uploadLogo);
 
 export default router;

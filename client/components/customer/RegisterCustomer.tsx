@@ -191,10 +191,6 @@ const RegisterCustomer: React.FC = () => {
 
         const file = event.target.files[0];
 
-        const formData = new FormData();
-        formData.append("file", file);
-        setImageUrl(`${Date.now()}_${file.name}`);
-
         const readAndPreview = (file: any) => {
             if(file) {
                 const reader = new FileReader();
@@ -207,13 +203,17 @@ const RegisterCustomer: React.FC = () => {
             readAndPreview(file);
         }
 
-        // try {
-        //     await axios.post(`/register/upload`, formData, {
-        //         headers: { "Context-Type": "multipart/form-data" }
-        //     });
-        // } catch (e) {
-        //     console.log(e)
-        // }
+        const formData = new FormData();
+        formData.append("file", file);
+        setImageUrl(`${Date.now()}_${file.name}`);
+
+        try {
+            await axios.post(`/api/customer/register/upload`, formData, {
+                headers: { "Context-Type": "multipart/form-data" }
+            });
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     const dispatch = useDispatch();

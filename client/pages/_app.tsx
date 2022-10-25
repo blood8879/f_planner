@@ -39,7 +39,7 @@ app.getInitialProps = async (context: AppContext) => {
       store.dispatch(userActions.setLoggedUser(data));
     }
   } catch(e) {
-    console.log(e);
+    // console.log(e);
   }
   // console.log(context.ctx.req?.headers.cookie);
   return { ...appInitialProps };
