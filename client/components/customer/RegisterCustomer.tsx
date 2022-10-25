@@ -16,9 +16,11 @@ import RegisterCustomerLogo from "./RegisterCustomerLogo";
 import { registerCustomerAPI } from "../../lib/api/customer";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
+import { cookieStringToObject } from "../../lib/utils";
+import { AppContext } from "next/app";
+import { meAPI } from "../../lib/api/auth";
 
-
-const Contaner = styled.div`
+const Container = styled.div`
     padding: 62px 30px 100px;
     h2 {
         font-size: 19px;
@@ -258,12 +260,12 @@ const RegisterCustomer: React.FC = () => {
         }
     }
 
-    useEffect(() => {
-        if(!isLogged) router.push("/");
-    }, [])
+    // useEffect(() => {
+    //     if(!isLogged) router.push("/");
+    // }, [])
 
     return(
-        <Contaner>
+        <Container>
             <h2>고객사 등록</h2>
             <form onSubmit={onSubmitCustomer}>
                 <h3>고객사명을 입력해 주세요.</h3>
@@ -343,7 +345,7 @@ const RegisterCustomer: React.FC = () => {
                     </div>
                 </div>
             </form>
-        </Contaner>
+        </Container>
     )
 };
 
