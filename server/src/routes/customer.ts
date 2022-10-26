@@ -4,9 +4,13 @@ import authMiddleware from "../middlewares/auth";
 import userMiddleware from "../middlewares/user";
 import multer, { FileFilterCallback } from "multer";
 
+let filenameForRegister = "";
+
 const register = async (req: Request, res: Response) => {
-    const { name, opened, imageUrl, handler, handlerNum, license } = req.body;
-    console.log("req.body===", req.body);
+    // const { name, opened, imageUrl: filenameForRegister , handler, handlerNum, license } = req.body;
+    // console.log("filenameRR1==", filenameForRegister);
+    const { name, opened, handler, handlerNum, license } = req.body;
+    // console.log("req.body===", req.body);
 
     try {
         // 이미 등록된 고객사인지 확인
@@ -17,6 +21,7 @@ const register = async (req: Request, res: Response) => {
         }
 
         const customer = new Customer(req.body);
+        customer.imageUrl = filenameForRegister;
 
         customer.save((err, doc) => {
             if (err) return res.json({ success: false, err });
@@ -24,6 +29,8 @@ const register = async (req: Request, res: Response) => {
                 success: true
             });
         });
+        filenameForRegister = "";
+        // console.log("filenameRR2==", filenameForRegister)
     } catch(e) {
         console.log(e);
     }
@@ -32,9 +39,9 @@ const register = async (req: Request, res: Response) => {
 const upload = multer({
     storage: multer.diskStorage({
         destination: "public/logos",
-        filename: (_, file, callback) => {
-            console.log("file===", file);
+        filename: (req: Request, file, callback) => {
             const filename = `${Date.now()}_${file.originalname}`;
+            filenameForRegister = filename;
             callback(null, filename)
         },
     }),
@@ -51,7 +58,7 @@ const uploadLogo = async(req: Request, res: Response) => {
     try {
         const type = req.body.type;
 
-        console.log("req.file===", req.file);
+        // console.log("req.file===", req.file);
     } catch(e) {
         console.log(e);
     }

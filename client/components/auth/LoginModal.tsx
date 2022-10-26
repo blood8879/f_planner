@@ -47,7 +47,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
             try {
                 const { data } = await loginAPI(loginBody);
                 // console.log("data====", data)
-                if(email.includes("root")) {
+                if(email==="root@datavalue.co.kr") {
                     dispatch(userActions.setLoggedAdmin(data));
                 } else {
                     dispatch(userActions.setLoggedUser(data));

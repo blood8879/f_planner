@@ -4,7 +4,18 @@ import palette from "../../styles/palette";
 import { useSelector } from "../../store";
 
 const normalSelectorStyle = css`
-
+    label {
+        font-size: 15px;
+        .span {
+            font-
+        }
+    }
+    select {
+        width: 100%;
+        height: 36px;
+        border: 1px solid;
+        border-radius:
+    }
 `;
 
 const RegisterSelectorStyle = css`

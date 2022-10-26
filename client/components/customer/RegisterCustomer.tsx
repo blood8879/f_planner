@@ -8,17 +8,10 @@ import Button from "../common/Button";
 import DatePicker from "../common/DatePicker";
 import Input from "../common/Input";
 import UploadIcon from "../../public/static/svg/customer/upload/upload.svg";
-import Selector from "../common/Selector";
 import RadioGroup from "../common/RadioGroup";
 import axios from "axios";
-import { isEmpty } from "lodash";
-import RegisterCustomerLogo from "./RegisterCustomerLogo";
 import { registerCustomerAPI } from "../../lib/api/customer";
 import { useRouter } from "next/router";
-import { GetServerSideProps } from "next";
-import { cookieStringToObject } from "../../lib/utils";
-import { AppContext } from "next/app";
-import { meAPI } from "../../lib/api/auth";
 
 const Container = styled.div`
     padding: 62px 30px 100px;
@@ -158,10 +151,7 @@ const Container = styled.div`
 `;
 
 const RegisterCustomer: React.FC = () => {
-    const fileInputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
-
-    const isLogged = useSelector((state) => state.user.isLogged);
 
     const opened = useSelector((state) => state.registerCustomer.opened);
     const licenseExp = useSelector((state) => state.registerCustomer.licenseExp);
@@ -253,7 +243,7 @@ const RegisterCustomer: React.FC = () => {
             console.log("registerCustomerBody==", registerCustomerBody);
             const { data } = await registerCustomerAPI(registerCustomerBody);
             // console.log("data==", data);
-            dispatch(registerCustomerActions.setRegisterCustomer(data));
+            // dispatch(registerCustomerActions.setRegisterCustomer(data));
             router.push("/");
         } catch(e) {
             console.log(e);
