@@ -4,13 +4,24 @@ import authMiddleware from "../middlewares/auth";
 import userMiddleware from "../middlewares/user";
 import multer, { FileFilterCallback } from "multer";
 
+// server단에서 multer를 이용한 이미지 업로드와 client 단에서 register request보낼 때 Date.now() 시간 차이가 발생하여 
+// db적재시 시간 통일을 위한 가변수 설정.
 let filenameForRegister = "";
 
-const register = async (req: Request, res: Response) => {
-    // const { name, opened, imageUrl: filenameForRegister , handler, handlerNum, license } = req.body;
-    // console.log("filenameRR1==", filenameForRegister);
+const getCustomer = async(req: Request, res: Response) => {
+    let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+    let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+
+    Customer.find()
+        .exec((err, customers) => {
+            if(err) res.status(400).send(err);
+            res.status(200).json({ success: true, customers })
+        })
+}
+
+const registerCustomer = async (req: Request, res: Response) => {
     const { name, opened, handler, handlerNum, license } = req.body;
-    // console.log("req.body===", req.body);
+    
 
     try {
         // 이미 등록된 고객사인지 확인
@@ -30,7 +41,6 @@ const register = async (req: Request, res: Response) => {
             });
         });
         filenameForRegister = "";
-        // console.log("filenameRR2==", filenameForRegister)
     } catch(e) {
         console.log(e);
     }
@@ -65,7 +75,8 @@ const uploadLogo = async(req: Request, res: Response) => {
 }
 
 const router = Router();
-router.post("/register", userMiddleware, authMiddleware, register);
+router.get("/", getCustomer);
+router.post("/register", userMiddleware, authMiddleware, registerCustomer);
 router.post("/register/upload", userMiddleware, authMiddleware, upload.single('file'), uploadLogo);
 
 export default router;
