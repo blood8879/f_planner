@@ -29,25 +29,28 @@ const inspectionType = [
 
 const RegisterInspectionCustomer: React.FC = () => {
     const [customerList, setCustomerList] = useState([])
-    // const [list, setList] = useState<any>([])
-    // const getCustomer = async() => {
-    //     try {
-    //         await axios.get("/api/customer")
-    //             .then(response => {
-    //                 if(response.data.success) {
-    //                     setCustomerList(response.data.customers)
-    //                     for(let i=0; i<customerList.length; i++) {
-    //                         let targetData = Object.values(customerList[i]).valueOf(2)
-    //                         console.log("tt", targetData)
-    //                     }
-    //                 } else {
-    //                     alert("고객사리스트 가져오기 실패.")
-    //                 }
-    //             });
-    //     } catch(e) {
-    //         console.log(e)
-    //     }
-    // }
+    const [list, setList] = useState<any>([])
+    const getCustomer = async() => {
+        try {
+            await axios.get("/api/customer")
+                .then(response => {
+                    if(response.data.success) {
+                        setCustomerList(response.data.customers);
+                        console.log("customer===", customerList);
+                        for(let i=0; i<customerList.length; i++) {
+                            // let targetData = Object.values(customerList[i]);
+                            let targetData = Object.keys(customerList[i]['name']);
+                            // console.log("Object", Object)
+                            console.log("tt", targetData)
+                        }
+                    } else {
+                        alert("고객사리스트 가져오기 실패.")
+                    }
+                });
+        } catch(e) {
+            console.log(e)
+        }
+    }
 
     // const renderLists = customerList.map((customer, index) => {
     //     return (
@@ -61,7 +64,7 @@ const RegisterInspectionCustomer: React.FC = () => {
     // })
 
     useEffect(() => {
-        // getCustomer()
+        getCustomer();
         // console.log("inspectionType",inspectionType)
     }, [])
 
@@ -71,11 +74,11 @@ const RegisterInspectionCustomer: React.FC = () => {
                 <div className="inspection-wrapper">
                     <div>
                         {/* {renderLists} */}
-                        {/* <Selector 
+                        <Selector 
                             type="normal"
                             options={list}
                             defaultValue="데이타밸류"
-                        /> */}
+                        />
                     </div>
                     <div className="inspection-selector-wrapper">
                         <Selector
