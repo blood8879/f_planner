@@ -29,7 +29,7 @@ const inspectionType = [
 
 const RegisterInspectionCustomer: React.FC = () => {
     const [customerList, setCustomerList] = useState([])
-    const [list, setList] = useState<any>([])
+    const [list, setList] = useState([])
     const getCustomer = async() => {
         try {
             await axios.get("/api/customer")
@@ -37,11 +37,18 @@ const RegisterInspectionCustomer: React.FC = () => {
                     if(response.data.success) {
                         setCustomerList(response.data.customers);
                         console.log("customer===", customerList);
+                        // const tt = JSON.stringify(customerList, null, 2);
+                        // setList(tt);
+                        // console.log("tt===", tt);
+                        // console.log("OB values===", customerList.values());
+                        setList([]);
                         for(let i=0; i<customerList.length; i++) {
                             // let targetData = Object.values(customerList[i]);
-                            let targetData = Object.keys(customerList[i]['name']);
-                            // console.log("Object", Object)
-                            console.log("tt", targetData)
+                            // let targetData = Object.keys(customerList[i]['name']);
+                            // let targetData = list.push(customerList[i]['name']);
+                            list.push(customerList[i]['name']);
+                            console.log("Object", list);
+                            // console.log("tt", targetData)
                         }
                     } else {
                         alert("고객사리스트 가져오기 실패.")
