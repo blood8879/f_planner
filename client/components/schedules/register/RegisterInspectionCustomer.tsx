@@ -28,8 +28,8 @@ const inspectionType = [
 ]
 
 const RegisterInspectionCustomer: React.FC = () => {
+    const [list, setList] = useState<any>([])
     const [customerList, setCustomerList] = useState([])
-    const [list, setList] = useState([])
     const getCustomer = async() => {
         try {
             await axios.get("/api/customer")
@@ -42,11 +42,17 @@ const RegisterInspectionCustomer: React.FC = () => {
                         // console.log("tt===", tt);
                         // console.log("OB values===", customerList.values());
                         setList([]);
+                        
                         for(let i=0; i<customerList.length; i++) {
+                            for(let l of customerList) {
+                                list.push(l['name'])
+                            }
                             // let targetData = Object.values(customerList[i]);
                             // let targetData = Object.keys(customerList[i]['name']);
                             // let targetData = list.push(customerList[i]['name']);
-                            list.push(customerList[i]['name']);
+                            // list.push(customerList[i]['name']);
+                            // setList(customerList[i]['name']);
+                            setList(list);
                             console.log("Object", list);
                             // console.log("tt", targetData)
                         }
@@ -84,6 +90,7 @@ const RegisterInspectionCustomer: React.FC = () => {
                         <Selector 
                             type="normal"
                             options={list}
+                            label="어느 고객사인가요?"
                             defaultValue="데이타밸류"
                         />
                     </div>
