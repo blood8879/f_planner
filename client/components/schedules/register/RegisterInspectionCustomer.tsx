@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { getCustomerListAPI } from "../../../lib/api/customer";
+import { customerActions } from "../../../store/customer";
 import Selector from "../../common/Selector";
 import RegisterInspection from "./RegisterInspection";
 
@@ -28,34 +31,48 @@ const inspectionType = [
 ]
 
 const RegisterInspectionCustomer: React.FC = () => {
-    const [list, setList] = useState<any>([])
-    const [customerList, setCustomerList] = useState([])
+    const dispatch = useDispatch();
+    const [list, setList] = useState<any>([]);
+    const [customerList, setCustomerList] = useState<any>([]);
+
+    // const getCustomer = async() => {
+    //     const { data } = await getCustomerListAPI();
+    //     console.log("data===", data);
+    //     if(data)
+    //         dispatch(customerActions.setCustomers);
+    // }
     const getCustomer = async() => {
         try {
             await axios.get("/api/customer")
                 .then(response => {
                     if(response.data.success) {
+                        console.log("1---", response.data.customers);
+                        for(let i=0; i<response.data.customers; i++) {
+                            setCustomerList(response.data.customers[i]['name']);
+                        }
                         setCustomerList(response.data.customers);
                         console.log("customer===", customerList);
                         // const tt = JSON.stringify(customerList, null, 2);
                         // setList(tt);
                         // console.log("tt===", tt);
                         // console.log("OB values===", customerList.values());
-                        setList([]);
+                        // setList([]);
                         
-                        for(let i=0; i<customerList.length; i++) {
-                            for(let l of customerList) {
-                                list.push(l['name'])
-                            }
-                            // let targetData = Object.values(customerList[i]);
-                            // let targetData = Object.keys(customerList[i]['name']);
-                            // let targetData = list.push(customerList[i]['name']);
-                            // list.push(customerList[i]['name']);
-                            // setList(customerList[i]['name']);
-                            setList(list);
-                            console.log("Object", list);
-                            // console.log("tt", targetData)
-                        }
+                        // for(let i=0; i<customerList.length; i++) {
+                        //     for(let l of customerList) {
+                        //         // list.push(l['name']);
+                        //         console.log(l['name']);
+                        //         // setList(list => [...list, l['name']]);
+                        //     }
+                        //     // let targetData = Object.values(customerList[i]);
+                        //     // let targetData = Object.keys(customerList[i]['name']);
+                        //     // let targetData = list.push(customerList[i]['name']);
+                        //     // list.push(customerList[i]['name']);
+                        //     // setList(customerList[i]['name']);
+                        //     // setList(list => [...list, customerList[i]['name']]);
+                        //     // console.log("Object", list);
+                        //     // console.log("tt", targetData)
+                        // }
                     } else {
                         alert("고객사리스트 가져오기 실패.")
                     }
