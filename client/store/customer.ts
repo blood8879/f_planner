@@ -12,6 +12,7 @@ const customer = createSlice({
     reducers: {
         setCustomers(state, action: PayloadAction<CustomerType[]>) {
             state.customers = action.payload;
+            return state;
         },
     }
 });

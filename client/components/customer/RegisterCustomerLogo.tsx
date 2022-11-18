@@ -1,3 +1,5 @@
+// 다중 이미지 등록시 사용하는 컴포넌트
+
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";

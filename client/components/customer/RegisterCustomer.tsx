@@ -243,7 +243,7 @@ const RegisterCustomer: React.FC = () => {
             console.log("registerCustomerBody==", registerCustomerBody);
             const { data } = await registerCustomerAPI(registerCustomerBody);
             // console.log("data==", data);
-            // dispatch(registerCustomerActions.setRegisterCustomer(data));
+            dispatch(registerCustomerActions.setRegisterCustomer(data));
             router.push("/");
         } catch(e) {
             console.log(e);
