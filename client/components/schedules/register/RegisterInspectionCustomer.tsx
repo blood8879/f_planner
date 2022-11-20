@@ -67,6 +67,23 @@ const RegisterInspectionCustomer: React.FC = () => {
         console.log(date);
     }
 
+    const onSubmitInspection = async(event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        // _id 검색 후, inspection_history에 추가
+        try {
+            const registerInspectionBody = {
+                customer,
+                type,
+                visitDate
+            };
+            
+            console.log("registerInspectionBody====", registerInspectionBody)
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
     // const dateLicense = licenseExp ? new Date(licenseExp) : null;
 
     // mongoDB 사용하여 리스트 불러올 시 
@@ -97,33 +114,35 @@ const RegisterInspectionCustomer: React.FC = () => {
         <RegisterInspection>
             <Container>
                 <div className="inspection-wrapper">
-                    <div className="inspection-selector-wrapper">
-                        {/* {customerlength} */}
-                        <Selector 
-                            type="normal"
-                            options={list}
-                            label="고객사를 선택해주세요."
-                            onChange={selectCustomer}
-                        />
-                    </div>
-                    <div className="inspection-selector-wrapper">
-                        <Selector
-                            type="normal"
-                            options={inspectionType}
-                            label="점검 유형을 선택해주세요."
-                            defaultValue="정기점검"
-                            onChange={selectType}
-                        />
-                    </div>
-                    <div className="inspection-content-wrapper">
-                        방문일을 선택해 주세요
-                        <div>
-                            <DatePicker
-                                selected={visitDate}
-                                onChange={selectVisitDate}
+                    <form onSubmit={onSubmitInspection}>
+                        <div className="inspection-selector-wrapper">
+                            {/* {customerlength} */}
+                            <Selector 
+                                type="normal"
+                                options={list}
+                                label="고객사를 선택해주세요."
+                                onChange={selectCustomer}
                             />
                         </div>
-                    </div>
+                        <div className="inspection-selector-wrapper">
+                            <Selector
+                                type="normal"
+                                options={inspectionType}
+                                label="점검 유형을 선택해주세요."
+                                defaultValue="정기점검"
+                                onChange={selectType}
+                            />
+                        </div>
+                        <div className="inspection-content-wrapper">
+                            방문일을 선택해 주세요
+                            <div>
+                                <DatePicker
+                                    selected={visitDate}
+                                    onChange={selectVisitDate}
+                                />
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </Container>        
         </RegisterInspection>
