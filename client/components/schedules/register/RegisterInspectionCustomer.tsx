@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { getCustomerListAPI } from "../../../lib/api/customer";
 import { useSelector } from "../../../store";
 import { customerActions } from "../../../store/customer";
+import Button from "../../common/Button";
 import DatePicker from "../../common/DatePicker";
 import Selector from "../../common/Selector";
 import RegisterInspection from "./RegisterInspection";
@@ -113,8 +114,8 @@ const RegisterInspectionCustomer: React.FC = () => {
     return (
         <RegisterInspection>
             <Container>
-                <div className="inspection-wrapper">
-                    <form onSubmit={onSubmitInspection}>
+                <form onSubmit={onSubmitInspection}>
+                    <div className="inspection-wrapper">
                         <div className="inspection-selector-wrapper">
                             {/* {customerlength} */}
                             <Selector 
@@ -142,7 +143,10 @@ const RegisterInspectionCustomer: React.FC = () => {
                                 />
                             </div>
                         </div>
-                    </form>
+                    </div>
+                </form>
+                <div>
+                    <Button type="submit" color="bittersweet">일정등록</Button>
                 </div>
             </Container>        
         </RegisterInspection>
