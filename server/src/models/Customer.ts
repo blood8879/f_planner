@@ -13,7 +13,8 @@ interface DBCustomer {
     handler: string;
     handlerNum: string;
     paidSupport: boolean;
-    supportHistory: Array<DBHistory>;
+    // supportHistory: Array<DBHistory>;
+    supportHistory: Object;
     license: Date;
 };
 
@@ -26,11 +27,15 @@ const customerSchema = new Schema<DBCustomer> ({
     handler: { type: String, required: true },
     handlerNum: { type: String },
     paidSupport: { type: Boolean, default: false },
-    supportHistory: [{
-        issued: { type: Date, required: true },
-        type: { type: String },
-        content: { type: String },
-    }],
+    // supportHistory: [{
+    //     issued: { type: Date, required: true },
+    //     type: { type: String },
+    //     content: { type: String },
+    // }],
+    supportHistory: {
+        type: Schema.Types.ObjectId,
+        ref: 'History'
+    },
     license: { type: Date },
 });
 
