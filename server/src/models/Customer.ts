@@ -34,7 +34,7 @@ const customerSchema = new Schema<DBCustomer> ({
     // }],
     supportHistory: {
         type: Schema.Types.ObjectId,
-        ref: 'History'
+        ref: 'Schedule'
     },
     license: { type: Date },
 });

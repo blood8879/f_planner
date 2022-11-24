@@ -1,22 +1,22 @@
 
 import { model, Model, Schema } from "mongoose";
 
-interface DBHistory {
+interface DBSchedule {
     name: string
     issued: Date;
     type: string;
     content: string;
 };
 
-interface DBHistoryModel extends Model<DBHistory> {}
+interface DBScheduleModel extends Model<DBSchedule> {}
 
-const historySchema = new Schema<DBHistory> ({
+const scheduleSchema = new Schema<DBSchedule> ({
     name: { type: String, required: true },
     issued: { type: Date, required: true },
     type: { type: String, required: true },
     content: { type: String }
 })
 
-const History = model<DBHistory, DBHistoryModel>('History', historySchema);
+const Schedule = model<DBSchedule, DBScheduleModel>('Schedule', scheduleSchema);
 
-export { History };
+export { Schedule };
