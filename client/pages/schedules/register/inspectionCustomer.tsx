@@ -8,28 +8,28 @@ const inspectionCustomer: NextPage = () => {
     return <RegisterInspectionCustomer />
 };
 
-inspectionCustomer.getInitialProps = async({ store, query }) => {
-    const {
-        name,
-        opened,
-        handler,
-        paidSupport,
-        supportHistory
-    } = query;
-    try {
-        const { data } = await getCustomerListAPI({
-            name,
-            opened,
-            handler,
-            paidSupport,
-            supportHistory
-        });
-        store.dispatch(customerActions.setCustomers(data));
-    } catch(e) {
-        console.log(e);
-    }
+// inspectionCustomer.getInitialProps = async({ store, query }) => {
+//     const {
+//         name,
+//         opened,
+//         handler,
+//         paidSupport,
+//         supportHistory
+//     } = query;
+//     try {
+//         const { data } = await getCustomerListAPI({
+//             name,
+//             opened,
+//             handler,
+//             paidSupport,
+//             supportHistory
+//         });
+//         store.dispatch(customerActions.setCustomers(data));
+//     } catch(e) {
+//         console.log(e);
+//     }
 
-    return {};
-};
+//     return {};
+// };
 
 export default inspectionCustomer;

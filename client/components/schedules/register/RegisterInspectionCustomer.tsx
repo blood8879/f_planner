@@ -38,20 +38,20 @@ const list: any = [];
 const RegisterInspectionCustomer: React.FC = () => {
     const dispatch = useDispatch();
     const [list, setList] = useState<any>([]);
-    const customers = useSelector((state) => state.customer.customers.customers);
+    // const customers = useSelector((state) => state.customer.customers.customers);
     const [customer, setCustomer] = useState<string | undefined>();
     const [type, setType] = useState<string | undefined>();
     // const visitDate = new Date();
     const [visitDate, setVisitDate] = useState<Date | null>();
 
-    const getCustomer = async() => {
-        setList([]);
-        if(customers) {
-            for(let i=0; i<customers.length; i++) {
-                setList((list:any) => [...list, customers[i]['name']])    
-            }
-        }
-    }
+    // const getCustomer = async() => {
+    //     setList([]);
+    //     if(customers) {
+    //         for(let i=0; i<customers.length; i++) {
+    //             setList((list:any) => [...list, customers[i]['name']])    
+    //         }
+    //     }
+    // }
 
     const selectCustomer = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setCustomer(event.target.value);
@@ -88,24 +88,24 @@ const RegisterInspectionCustomer: React.FC = () => {
     // const dateLicense = licenseExp ? new Date(licenseExp) : null;
 
     // mongoDB 사용하여 리스트 불러올 시 
-    // const getCustomer = async() => {
-    //     try {
-    //         await axios.get("/api/customer")
-    //             .then(response => {
-    //                 if(response.data.success) {
-    //                     console.log("1---", response.data.customers);
-    //                     setList([]);
-    //                     for(let i=0; i<response.data.customers.length; i++) {
-    //                         setList((list: any) => [...list, response.data.customers[i]['name']])
-    //                     }
-    //                 } else {
-    //                     alert("고객사리스트 가져오기 실패.")
-    //                 }
-    //             });
-    //     } catch(e) {
-    //         console.log(e)
-    //     }
-    // }
+    const getCustomer = async() => {
+        try {
+            await axios.get("/api/customer")
+                .then(response => {
+                    if(response.data.success) {
+                        console.log("1---", response.data.customers);
+                        setList([]);
+                        for(let i=0; i<response.data.customers.length; i++) {
+                            setList((list: any) => [...list, response.data.customers[i]['name']])
+                        }
+                    } else {
+                        alert("고객사리스트 가져오기 실패.")
+                    }
+                });
+        } catch(e) {
+            console.log(e)
+        }
+    }
     
     useEffect(() => {
         getCustomer();
@@ -123,6 +123,8 @@ const RegisterInspectionCustomer: React.FC = () => {
                                 options={list}
                                 label="고객사를 선택해주세요."
                                 onChange={selectCustomer}
+                                defaultValue="고객사목록"
+                                disabledOptions={["고객사목록"]}
                             />
                         </div>
                         <div className="inspection-selector-wrapper">
@@ -130,8 +132,9 @@ const RegisterInspectionCustomer: React.FC = () => {
                                 type="normal"
                                 options={inspectionType}
                                 label="점검 유형을 선택해주세요."
-                                defaultValue="정기점검"
+                                defaultValue="고객사목록"
                                 onChange={selectType}
+                                disabledOptions={["점검유형"]}
                             />
                         </div>
                         <div className="inspection-content-wrapper">
@@ -144,10 +147,10 @@ const RegisterInspectionCustomer: React.FC = () => {
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <Button type="submit" color="bittersweet">일정등록</Button>
+                    </div>
                 </form>
-                <div>
-                    <Button type="submit" color="bittersweet">일정등록</Button>
-                </div>
             </Container>        
         </RegisterInspection>
     )
