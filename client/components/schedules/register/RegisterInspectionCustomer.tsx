@@ -42,7 +42,7 @@ const RegisterInspectionCustomer: React.FC = () => {
     const [customer, setCustomer] = useState<string | undefined>();
     const [type, setType] = useState<string | undefined>();
     // const visitDate = new Date();
-    const [visitDate, setVisitDate] = useState<Date | null>();
+    const [issued, setIssued] = useState<Date | null>();
 
     // const getCustomer = async() => {
     //     setList([]);
@@ -62,9 +62,9 @@ const RegisterInspectionCustomer: React.FC = () => {
         setType(event.target.value);
     }
 
-    const selectVisitDate = (date: Date | null) => {
+    const selectIssueDate = (date: Date | null) => {
         // setVisitDate(event.target.value.toISOString());
-        setVisitDate(date);
+        setIssued(date);
         console.log(date);
     }
 
@@ -76,7 +76,7 @@ const RegisterInspectionCustomer: React.FC = () => {
             const registerInspectionBody = {
                 customer,
                 type,
-                visitDate
+                issued
             };
             
             console.log("registerInspectionBody====", registerInspectionBody)
@@ -141,8 +141,8 @@ const RegisterInspectionCustomer: React.FC = () => {
                             방문일을 선택해 주세요
                             <div>
                                 <DatePicker
-                                    selected={visitDate}
-                                    onChange={selectVisitDate}
+                                    selected={issued}
+                                    onChange={selectIssueDate}
                                 />
                             </div>
                         </div>
