@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { getCustomerListAPI } from "../../../lib/api/customer";
+import { registerScheduleAPI } from "../../../lib/api/schedule";
 import { useSelector } from "../../../store";
 import { customerActions } from "../../../store/customer";
 import Button from "../../common/Button";
@@ -39,10 +40,10 @@ const RegisterInspectionCustomer: React.FC = () => {
     const dispatch = useDispatch();
     const [list, setList] = useState<any>([]);
     // const customers = useSelector((state) => state.customer.customers.customers);
-    const [customer, setCustomer] = useState<string | undefined>();
-    const [type, setType] = useState<string | undefined>();
+    const [customer, setCustomer] = useState("");
+    const [type, setType] = useState("")
     // const visitDate = new Date();
-    const [issued, setIssued] = useState<Date | null>();
+    const [issued, setIssued] = useState<Date | null | undefined>();
 
     // const getCustomer = async() => {
     //     setList([]);
@@ -64,7 +65,9 @@ const RegisterInspectionCustomer: React.FC = () => {
 
     const selectIssueDate = (date: Date | null) => {
         // setVisitDate(event.target.value.toISOString());
-        setIssued(date);
+        const date1 = date ? new Date(date) : null;
+        console.log("date===", date1);
+        setIssued(date1);
         console.log(date);
     }
 
@@ -78,8 +81,12 @@ const RegisterInspectionCustomer: React.FC = () => {
                 type,
                 issued
             };
+
+            console.log("registerInspectionBody====", registerInspectionBody);
+
+            const { data } = await registerScheduleAPI(registerInspectionBody);
             
-            console.log("registerInspectionBody====", registerInspectionBody)
+            
         } catch(e) {
             console.log(e);
         }
