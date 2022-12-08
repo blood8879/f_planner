@@ -79,7 +79,7 @@ const RegisterInspectionCustomer: React.FC = () => {
             const registerInspectionBody = {
                 customer,
                 type,
-                issued
+                issued,
             };
 
             console.log("registerInspectionBody====", registerInspectionBody);

@@ -1,6 +1,7 @@
 import express from "express";
 import authRoutes from "./routes/auth";
 import customerRoutes from "./routes/customer";
+import scheduleRoutes from "./routes/schedule";
 import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
@@ -36,6 +37,7 @@ const connect = mongoose.connect(mongo_URI, {
 app.get("/", (_, res) => res.send("Server is running"));
 app.use("/api/auth", authRoutes);
 app.use("/api/customer", customerRoutes);
+app.use("/api/schedule", scheduleRoutes);
 
 let port = 4000;
 

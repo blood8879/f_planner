@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 
 export default async(req: Request, res: Response, next: NextFunction) => {
     try {
-        // console.log("req====", req)
+        console.log("req====", req)
         
         let token = "";
         // const token = req.cookies.token;
