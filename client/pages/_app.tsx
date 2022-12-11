@@ -7,6 +7,10 @@ import axios from 'axios';
 import { cookieStringToObject } from '../lib/utils';
 import { meAPI } from '../lib/api/auth';
 import { userActions } from '../store/user';
+import "@fullcalendar/common/main.css";
+import "@fullcalendar/daygrid/main.css";
+import "@fullcalendar/timegrid/main.css";
+import '../global-styles.css'
 
 const app = ({ Component, pageProps }: AppProps) => {
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL;

@@ -85,7 +85,7 @@ const RegisterInspectionCustomer: React.FC = () => {
             console.log("registerInspectionBody====", registerInspectionBody);
 
             const { data } = await registerScheduleAPI(registerInspectionBody);
-            
+            console.log("스케쥴등록완료");
             
         } catch(e) {
             console.log(e);
