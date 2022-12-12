@@ -1,22 +1,17 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
-import FullCalendar from '@fullcalendar/react';
+import FullCalendar from "@fullcalendar/react";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import dayGridPlugin from "@fullcalendar/daygrid";
 import { useRef } from 'react';
+import ScheduleList from '../components/schedules/ScheduleList';
 
 const Home: NextPage = () => {
   const calenderRef = useRef(null);
   return (
-    // <FullCalendar 
-    //   // innerRef={calenderRef}
-    //   plugins={[timeGridPlugin, interactionPlugin]}
-    //   editable
-    //   selectable
-    // />
-    <div>Hello</div>
+    <>
+      <ScheduleList />
+    </>
   )
 }
 
