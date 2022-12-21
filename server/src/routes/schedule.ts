@@ -3,6 +3,16 @@ import { Schedule } from "../models/Schedule";
 import authMiddleware from "../middlewares/auth";
 import userMiddleware from "../middlewares/user";
 
+// 등록된 일정 불러오기
+const getSchedules = async(req: Request, res: Response) => {
+    Schedule.find()
+        .exec((err, schedules) => {
+            if(err) res.status(400).send(err);
+            res.status(200).json({ success: true, schedules })
+        })
+}
+
+// 신규 일정 등록
 const registerSchedule = async(req: Request, res: Response) => {
     const { customer, type, issued } = req.body;
 
@@ -25,5 +35,7 @@ const registerSchedule = async(req: Request, res: Response) => {
 
 const router = Router();
 
+router.get("/", getSchedules);
 router.post("/registerSchedule", userMiddleware, authMiddleware, registerSchedule);
+
 export default router;

@@ -39,12 +39,14 @@ const list: any = [];
 const RegisterInspectionCustomer: React.FC = () => {
     const dispatch = useDispatch();
     const [list, setList] = useState<any>([]);
+    // redux 이용하여 고객사 내역 가져올 경우 사용
     // const customers = useSelector((state) => state.customer.customers.customers);
     const [customer, setCustomer] = useState("");
     const [type, setType] = useState("")
     // const visitDate = new Date();
     const [issued, setIssued] = useState<Date | null | undefined>();
 
+    // redux 이용하여 고객사 내역 가져온 후 List에 push
     // const getCustomer = async() => {
     //     setList([]);
     //     if(customers) {
