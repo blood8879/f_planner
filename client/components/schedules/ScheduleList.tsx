@@ -4,8 +4,11 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import koLocale from "@fullcalendar/core/locales/ko";
 import axios from "axios";
+import RegisterInspectionCustomer from "./register/RegisterInspectionCustomer";
+import Link from "next/link";
+import { useRouter } from "next/router";
+// import googleCalendarPlugin from "@fullcalendar/google-calendar";
 
 const Container = styled.div`
     .registered-schedule-wrapper {
@@ -16,10 +19,9 @@ const Container = styled.div`
 
 // const data = [{ title: 'test', start: '2022-12-12', end: '2022-12-13'}]
 
-
-
 const ScheduleList: React.FC = () => {
     const [schedules, setSchedules] = useState<any>([]);
+    const router = useRouter();
 
     const getSchedules = async() => {
         try {
@@ -47,16 +49,42 @@ const ScheduleList: React.FC = () => {
             <div className="registered-schedule-wrapper">
                 <FullCalendar 
                     plugins={[timeGridPlugin, interactionPlugin, dayGridPlugin]}
+                        timeZone='Asia/Seoul'
                         initialView='dayGridMonth'
                         // editable
                         // selectable
                         nowIndicator={true}
                         events={schedules}
-                        locale='ko'
-                        // titleFormat=
-                        // initialEvents={[
-                        //   { title: '테스트', start: new Date() }
-                        // ]}
+                        // locale='ko'
+                        // contentHeight={600}
+                        // googleCalendarApiKey=""
+                        headerToolbar={{
+                            // left:'prevYear,prev,next,nextYear today',
+                            left: 'prevYear,prev',
+                            center:'title',
+                            // right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                            right: 'registerButton next,nextYear'
+                        }}
+                        titleFormat={{
+                            year: 'numeric',
+                            month: 'long',
+                        }}
+                        // eventTimeFormat={{
+
+                        // }}
+                        displayEventTime={false}
+                        weekNumbers={true}
+                        dayHeaderFormat={{
+                            weekday: 'short'
+                        }}
+                        customButtons={{
+                            registerButton: {
+                                text: '등록',
+                                click: function() {
+                                    router.push("/schedules/register/inspection")
+                                }
+                            }
+                        }}
                 />
             </div>
         </Container>

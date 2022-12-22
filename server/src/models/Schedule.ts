@@ -3,16 +3,20 @@ import { model, Model, Schema } from "mongoose";
 
 interface DBSchedule {
     customer: string
-    issued: Date;
+    start: Date;
     type: string;
     content: string;
+    title: string;
+    name: string;
 };
 
 interface DBScheduleModel extends Model<DBSchedule> {}
 
 const scheduleSchema = new Schema<DBSchedule> ({
     customer: { type: String, required: true },
-    issued: { type: Date, required: true },
+    name: { type: String },
+    title: { type: String },
+    start: { type: Date, required: true },
     type: { type: String, required: true },
     content: { type: String }
 })

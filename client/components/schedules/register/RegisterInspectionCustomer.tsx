@@ -41,10 +41,11 @@ const RegisterInspectionCustomer: React.FC = () => {
     const [list, setList] = useState<any>([]);
     // redux 이용하여 고객사 내역 가져올 경우 사용
     // const customers = useSelector((state) => state.customer.customers.customers);
+    const name = useSelector((state) => state.user.name);
     const [customer, setCustomer] = useState("");
     const [type, setType] = useState("")
     // const visitDate = new Date();
-    const [issued, setIssued] = useState<Date | null | undefined>();
+    const [start, setStart] = useState<Date | null | undefined>();
 
     // redux 이용하여 고객사 내역 가져온 후 List에 push
     // const getCustomer = async() => {
@@ -69,7 +70,7 @@ const RegisterInspectionCustomer: React.FC = () => {
         // setVisitDate(event.target.value.toISOString());
         const date1 = date ? new Date(date) : null;
         console.log("date===", date1);
-        setIssued(date1);
+        setStart(date1);
         console.log(date);
     }
 
@@ -81,7 +82,8 @@ const RegisterInspectionCustomer: React.FC = () => {
             const registerInspectionBody = {
                 customer,
                 type,
-                issued,
+                start,
+                name
             };
 
             console.log("registerInspectionBody====", registerInspectionBody);
@@ -150,7 +152,7 @@ const RegisterInspectionCustomer: React.FC = () => {
                             방문일을 선택해 주세요
                             <div>
                                 <DatePicker
-                                    selected={issued}
+                                    selected={start}
                                     onChange={selectIssueDate}
                                 />
                             </div>

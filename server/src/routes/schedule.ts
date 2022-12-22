@@ -14,13 +14,14 @@ const getSchedules = async(req: Request, res: Response) => {
 
 // 신규 일정 등록
 const registerSchedule = async(req: Request, res: Response) => {
-    const { customer, type, issued } = req.body;
+    const { name, customer, type, start } = req.body;
 
     try {
         // 이미 등록되어 있는 Date일 경우 기존 내용에 update
     
         // 새로운 Date일 경우, 신규 등록
         const schedule = new Schedule(req.body);
+        schedule.title = name + "-" + customer;
 
         schedule.save((err, doc) => {
             if (err) return res.json({ success: false, err });
