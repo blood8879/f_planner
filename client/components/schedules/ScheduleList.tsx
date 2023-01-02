@@ -12,8 +12,30 @@ import { useRouter } from "next/router";
 
 const Container = styled.div`
     .registered-schedule-wrapper {
-        width: 80%;
-        align-items: center;
+        justify-content: center;
+        display: flex;
+
+        .fc-header-toolbar {
+            min-width: 80em;
+            margin-top: 0 auto;
+            margin-bottom: 0 auto;
+        }
+
+        .fc-daygrid {
+            max-height: 80%;
+            margin-top: 0 auto;
+            margin-bottom: 0 auto;
+        }
+
+        .fc-day-sat a {
+            color: blue;
+            text-decoration: none;
+        }
+        
+        .fc-day-sun a {
+            color: red;
+            text-decoration: none;
+        }
     }
 `;
 
@@ -79,7 +101,7 @@ const ScheduleList: React.FC = () => {
                         }}
                         customButtons={{
                             registerButton: {
-                                text: '등록',
+                                text: '+',
                                 click: function() {
                                     router.push("/schedules/register/inspection")
                                 }

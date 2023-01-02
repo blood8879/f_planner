@@ -10,6 +10,7 @@ export type StoredUserType = {
 
 // 유저 타입
 export type UserType = {
+    user?: any;
     id: string;
     email: string;
     name: string;

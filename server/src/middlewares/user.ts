@@ -16,13 +16,13 @@ export default async(req: Request, res: Response, next: NextFunction) => {
         }
             
         
-        console.log("token===", token);
+        // console.log("token===", token);
         if (!token) return next();
 
         const { email } : any = jwt.verify(token, process.env.JWT_SECRET);
 
         const user = await User.findOne({ email });
-        // console.log("user", user);
+        console.log("user", user);
 
         if (!user) throw new Error("Unauthenticated");
 
