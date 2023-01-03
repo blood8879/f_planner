@@ -8,6 +8,8 @@ import axios from "axios";
 import RegisterInspectionCustomer from "./register/RegisterInspectionCustomer";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import ScheduleModal from "./ScheduleModal";
+import useModal from "../../hooks/useModal";
 // import googleCalendarPlugin from "@fullcalendar/google-calendar";
 
 const Container = styled.div`
@@ -41,9 +43,16 @@ const Container = styled.div`
 
 // const data = [{ title: 'test', start: '2022-12-12', end: '2022-12-13'}]
 
-const ScheduleList: React.FC = () => {
+interface IProps {
+    closeModal: () => void;
+}
+
+const ScheduleList: React.FC<IProps> = () => {
     const [schedules, setSchedules] = useState<any>([]);
     const router = useRouter();
+    const { openModal, closeModal, ModalPortal } = useModal();
+
+    // const scheduleByid = <ScheduleModal />;
 
     const getSchedules = async() => {
         try {
@@ -78,7 +87,7 @@ const ScheduleList: React.FC = () => {
                         nowIndicator={true}
                         events={schedules}
                         // locale='ko'
-                        // contentHeight={600}
+                        contentHeight={700}
                         // googleCalendarApiKey=""
                         headerToolbar={{
                             // left:'prevYear,prev,next,nextYear today',
@@ -91,14 +100,11 @@ const ScheduleList: React.FC = () => {
                             year: 'numeric',
                             month: 'long',
                         }}
-                        // eventTimeFormat={{
-
-                        // }}
+                        // 캘린더에 등록된 일정 시간까지 표기
                         displayEventTime={false}
+                        // 몇주차 번호 표기
                         weekNumbers={true}
-                        dayHeaderFormat={{
-                            weekday: 'short'
-                        }}
+                        // 커스텀 버튼
                         customButtons={{
                             registerButton: {
                                 text: '+',
@@ -107,8 +113,25 @@ const ScheduleList: React.FC = () => {
                                 }
                             }
                         }}
+                        // 일정클릭 이벤트(background)
+                        // dateClick={
+                        //     function(info) {
+                        //         alert('Clicked on: ' + info.dateStr)
+                        //     }
+                        // }
+                        // 이벤트 클릭
+                        eventClick={
+                            function(info) {
+                                // console.log(info.event.extendedProps)
+                                openModal();
+                                // alert('extendedProps: '+info.event.extendedProps)
+                            }
+                        }
                 />
             </div>
+            <ModalPortal>
+                <ScheduleModal info={info} closeModal={closeModal}/>
+            </ModalPortal>
         </Container>
     )
 }

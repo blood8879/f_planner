@@ -42,6 +42,11 @@ const useModal = () => {
         setModalOpened(false);
     }
 
+    const openModalwithProps = ({ props }) => {
+        
+        setModalOpened(true);
+    }
+
     interface IProps {
         children: React.ReactNode;
     }
@@ -89,6 +94,7 @@ const useModal = () => {
         openModal,
         closeModal,
         ModalPortal: React.memo(ModalPortal),
+        // setContent,
     }
 };
 

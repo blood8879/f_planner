@@ -34,6 +34,13 @@ const registerSchedule = async(req: Request, res: Response) => {
     }
 }
 
+// 개별 일정 불러오기
+const findSchedulebyid = async(req: Request, res: Response) => {
+    const { } = req.params;
+    
+    Schedule.findById
+}
+
 const router = Router();
 
 router.get("/", getSchedules);
