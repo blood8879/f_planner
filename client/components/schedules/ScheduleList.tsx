@@ -45,10 +45,14 @@ const Container = styled.div`
 
 interface IProps {
     closeModal: () => void;
+    info: any[];
+    start?: Date | null;
 }
 
 const ScheduleList: React.FC<IProps> = () => {
     const [schedules, setSchedules] = useState<any>([]);
+    const [schedule, setSchedule] = useState<any>([]);
+    const [start, setStart] = useState<Date | null>();
     const router = useRouter();
     const { openModal, closeModal, ModalPortal } = useModal();
 
@@ -123,6 +127,10 @@ const ScheduleList: React.FC<IProps> = () => {
                         eventClick={
                             function(info) {
                                 // console.log(info.event.extendedProps)
+                                // <ScheduleModal info={info.event.extendedProps} closeModal={closeModal}/>
+                                setSchedule(info.event.extendedProps);
+                                setStart(info.event.start);
+                                // alert(schedule.event.extendedProps);
                                 openModal();
                                 // alert('extendedProps: '+info.event.extendedProps)
                             }
@@ -130,7 +138,7 @@ const ScheduleList: React.FC<IProps> = () => {
                 />
             </div>
             <ModalPortal>
-                <ScheduleModal info={info} closeModal={closeModal}/>
+                <ScheduleModal info={schedule} start={start} closeModal={closeModal}/>
             </ModalPortal>
         </Container>
     )

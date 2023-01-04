@@ -42,11 +42,6 @@ const useModal = () => {
         setModalOpened(false);
     }
 
-    const openModalwithProps = ({ props }) => {
-        
-        setModalOpened(true);
-    }
-
     interface IProps {
         children: React.ReactNode;
     }
