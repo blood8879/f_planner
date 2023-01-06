@@ -35,15 +35,22 @@ const registerSchedule = async(req: Request, res: Response) => {
 }
 
 // 개별 일정 불러오기
-const findSchedulebyid = async(req: Request, res: Response) => {
-    const { } = req.params;
+const findSchedulebyidAndUpdate = async(req: Request, res: Response) => {
+    const { id } = req.body;
     
-    Schedule.findById
+    Schedule.find({ _id : id })
+        .exec((err, schedule) => {
+            if(err) res.status(400).send(err);
+            res.status(200).json({ success: true, schedule });
+        })
+        
 }
 
 const router = Router();
 
 router.get("/", getSchedules);
 router.post("/registerSchedule", userMiddleware, authMiddleware, registerSchedule);
+router.get("/:id", findSchedulebyidAndUpdate);
+// router.put("/:id", userMiddleware, authMiddleware, findSchedulebyidAndUpdate);
 
 export default router;

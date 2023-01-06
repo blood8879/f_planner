@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React from "react";
 import useModal from "../../hooks/useModal";
 
@@ -10,7 +11,11 @@ interface IProps {
 const ScheduleModal: React.FC<IProps> = ({ closeModal, info, start }) => {
     console.log("info",info)
     console.log("start", start)
-    const startDate = start?.toISOString(); 
+    const id = info._id;
+    console.log("id===", id);
+    const router = useRouter();
+    console.log("router===", router);
+    const startDate = start?.toUTCString(); 
     return (
         // <div>모달</div>
         <>
