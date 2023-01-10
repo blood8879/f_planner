@@ -8,7 +8,7 @@ export default async(req: Request, res: Response, next: NextFunction) => {
         
         let token = "";
         // const token = req.cookies.token;
-        console.log("router===", req.route.path)
+        // console.log("router===", req.route.path)
         if(req.route.path === "/me") {
             token = req.headers.cookie;
         } else {
