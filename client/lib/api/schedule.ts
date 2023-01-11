@@ -6,3 +6,10 @@ export const registerScheduleAPI = (body: ScheduleType) =>
 
 export const reviseScheduleAPI = (body: ScheduleType) =>
     axios.put("/api/schedule/:id", body);
+
+export const deleteScheduleAPI = (id: any) =>
+    axios.delete("/api/schedule/:id", {
+        data: {
+            id
+        }
+    });

@@ -48,10 +48,17 @@ const findSchedulebyid = async(req: Request, res: Response) => {
 
 // 개별 일정 수정
 const findSchedulebyidAndUpdate = async(req: Request, res: Response) => {
-    const { id, customer, name, start } = req.body;
+    const { id, customer, type, name, start } = req.body;
     console.log(req.body);
+
+    if(customer === "" || customer === "고객사목록" || customer === null) {
+        return;
+    } 
+    if(type === "" || type === "점검유형" || type === null) {
+        return; 
+    }
     
-    Schedule.findByIdAndUpdate({ _id: id}, { $set: { customer: customer, title: name + "-" + customer, start: start }})
+    Schedule.findByIdAndUpdate({ _id: id}, { $set: { customer: customer, title: name + "-" + customer, type: type, start: start }})
         .exec((err, schedule) => {
             if(err) return res.json({ success: false, err });
             return res.status(200).json({
@@ -61,12 +68,32 @@ const findSchedulebyidAndUpdate = async(req: Request, res: Response) => {
         
 }
 
+// 개별 일정 삭제
+const findSchedulebyidAndDelete = async(req: Request, res: Response) => {
+    const { id } = req.body;
+
+    try {
+        Schedule.findByIdAndDelete({ _id: id })
+        .exec((err, schedule) => {
+            if(err) return res.json({ success: false , err });
+            return res.status(200).json({
+                success: true
+            });
+        });    
+    } catch (error) {
+        console.log(error)
+    }
+
+    
+}
+
 const router = Router();
 
 router.get("/", getSchedules);
 router.post("/registerSchedule", userMiddleware, authMiddleware, registerSchedule);
 router.get("/:id", findSchedulebyid);
-router.put("/:id", findSchedulebyidAndUpdate);
+router.put("/:id", userMiddleware, authMiddleware, findSchedulebyidAndUpdate);
+router.delete("/:id", userMiddleware, authMiddleware, findSchedulebyidAndDelete);
 // router.put("/:id", userMiddleware, authMiddleware, findSchedulebyidAndUpdate);
 
 export default router;
